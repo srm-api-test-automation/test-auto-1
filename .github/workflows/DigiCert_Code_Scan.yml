@@ -1,0 +1,24 @@
+name: DigiCert Code Scan
+
+on:
+  workflow_dispatch:
+
+jobs:
+  analyze:
+    name: DigiCert Code Monitoring
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - uses: digicert/digicert-code-monitoring-action@5bff5d5c9c6c4e8552534ef56322901f06e3f4db
+        with:
+          host: "https://parcel-unrushed-radio.ngrok-free.dev"
+          api-key: ${{ secrets.DIGICERT_BACKEND_API_KEY }}
+          name: ${releaseName}
+          tag: ${releaseTag}
+          with-release: "true"
+          dc-release-id: ${internalReleaseId}
+          digicert-cdn: "https://pki-downloads.digicert.com/stm/snapshot/stmclients"
+          use-github-caching-service: "true"
+          use-binary-sha256-checksum: "true"
